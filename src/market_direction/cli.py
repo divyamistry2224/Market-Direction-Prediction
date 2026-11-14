@@ -7,10 +7,13 @@ from .data import fetch, verify
 
 def main():
     parser = argparse.ArgumentParser(description="Market direction research pipeline")
-    parser.add_argument("command", choices=["fetch", "verify", "run", "extension-fetch", "extension-run"])
+    parser.add_argument("command", choices=["fetch", "verify", "run", "extension-fetch", "extension-run", "profitability"])
     args = parser.parse_args()
     if args.command == "fetch": print(json.dumps(fetch(), indent=2))
     elif args.command == "verify": print(json.dumps(verify(), indent=2))
+    elif args.command == "profitability":
+        from .profitability import run_profitability
+        run_profitability()
     elif args.command == "extension-fetch":
         from .extension import fetch_extension
         fetch_extension()
