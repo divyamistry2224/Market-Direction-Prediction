@@ -6,9 +6,9 @@ import pandas as pd
 from sklearn.metrics import accuracy_score, balanced_accuracy_score, brier_score_loss, log_loss, roc_auc_score
 
 
-def classification(y, probability) -> dict:
+def classification(y, probability, threshold=.5) -> dict:
     p = np.clip(np.asarray(probability), 1e-6, 1 - 1e-6)
-    return {"accuracy": float(accuracy_score(y, p >= .5)), "balanced_accuracy": float(balanced_accuracy_score(y, p >= .5)), "roc_auc": float(roc_auc_score(y, p)) if len(np.unique(y)) > 1 else None, "brier": float(brier_score_loss(y, p)), "log_loss": float(log_loss(y, p, labels=[0, 1]))}
+    return {"accuracy": float(accuracy_score(y, p >= threshold)), "balanced_accuracy": float(balanced_accuracy_score(y, p >= threshold)), "roc_auc": float(roc_auc_score(y, p)) if len(np.unique(y)) > 1 else None, "brier": float(brier_score_loss(y, p)), "log_loss": float(log_loss(y, p, labels=[0, 1]))}
 
 
 def returns_for(probability, market_return, threshold=.55, cost_bps=2.0) -> tuple[np.ndarray, np.ndarray]:
