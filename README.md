@@ -34,7 +34,7 @@ The fresh winner uses **enhanced market and cross-asset features**, not the macr
 - **Validation:** original annual expanding folds, feature ablations, and a preregistered extension with a new 2026 evaluation sample. The original weak result remains available.
 - **Financial evaluation:** long/cash SPY, explicit next-open entry and same-day close exit, per-side costs, net CAGR, zero-rate Sharpe, max drawdown, hit rate, profit factor, exposure, monthly P&L, and ledger-level predictions.
 - **Uncertainty & diagnostics:** calibration bins, AUC, Brier score, log loss, feature importance, and moving-block bootstrap intervals.
-- **Interactive dashboard:** model/sample selectors, threshold and cost controls, equity curves with hover values, monthly heatmap, signal ledger, validation tables, and source methodology.
+- **Interactive workbench:** four distinct screens for overview, strategy building, model comparison and data exploration. Includes capital/confidence/cost controls, scenario presets, equity/drawdown/return charts, clickable month/session details, model-specific diagnostics, actual data replay, CSV exports and shareable setups. See the [workbench guide](docs/research/dashboard_guide.md).
 - **Integrity checks:** snapshot tampering, invalid OHLC, future feature mutation, backward joins, purged splits, next-session targets, round-trip accounting, drawdown, and reproducibility.
 
 ## Quick start
@@ -53,6 +53,7 @@ pytest -q
 market-direction run              # Reproduce original models and artifacts
 market-direction extension-run    # Reproduce the frozen 32-configuration search
 market-direction profitability    # Add Extra Trees / histogram GB comparisons
+python scripts/export_explorer.py # Refresh the dashboard's time-aligned data explorer
 ```
 
 To open the dashboard locally:
@@ -62,6 +63,8 @@ python -m http.server 8000 --directory docs
 ```
 
 Visit `http://localhost:8000`. Opening `index.html` directly with `file://` will not load the JSON artifacts.
+
+For browser interaction checks, install `playwright==1.62.0`, run `python -m playwright install chromium`, then `python scripts/check_dashboard.py`. The checks exercise tab changes, scenario calculations, CSV accounting, model diagnostics, date replay, accessible dialogs and mobile layouts.
 
 Refreshing data is optional:
 

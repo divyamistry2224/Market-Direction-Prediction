@@ -69,3 +69,19 @@ def test_browser_bundle_matches_canonical_predictions():
     for model, probabilities in bundle["probabilities"].items():
         np.testing.assert_allclose(probabilities, canonical.loc[canonical.model == model, "probability_up"], atol=1e-7)
     assert len(bundle["observations"]) == bundle["report"]["holdout"]["rows"]
+
+
+def test_data_explorer_exports_actual_available_features():
+    from market_direction.features import build
+    exported = json.loads((ROOT / "docs/data/explorer.json").read_text())
+    for sample, root, start, end in [("original", ROOT, "2022-01-01", "2025-12-31"), ("extension", V2, "2026-01-01", "2026-10-30")]:
+        frame = build(root)
+        frame = frame.loc[frame.trade_date.between(start, end)].reset_index(drop=True)
+        rows = exported[sample]
+        assert len(rows) == len(frame)
+        for index in [0, len(rows) // 2, len(rows) - 1]:
+            row = rows[index]
+            assert row["date"] == str(frame.signal_date.iloc[index].date())
+            for field in ["close", "news_sentiment", "vix", "yield_curve", "fed_funds", "inflation_yoy", "unemployment"]:
+                assert row[field] == pytest.approx(frame[field].iloc[index], abs=1e-7)
+                assert row[field + "_available_date"] <= row["date"]

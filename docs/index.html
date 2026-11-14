@@ -1,83 +1,695 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Divya Mistry's reproducible market direction research: sentiment, macroeconomic signals, CatBoost, Random Forest and chronological evaluation.">
-  <meta name="theme-color" content="#102c34">
-  <title>Market Direction Research · Divya Mistry</title>
-  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-  <link rel="stylesheet" href="assets/style.css">
-  <script src="assets/app.js" defer></script>
-</head>
-<body>
-<a class="skip" href="#main">Skip to research</a>
-<header class="topbar">
-  <a class="brand" href="#overview" aria-label="Market Direction Research home"><span class="brand-symbol"><svg viewBox="0 0 28 28" width="25" height="25" aria-hidden="true"><path d="M4 22l7-8 5 3 8-12m-7 0h7v7" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></span><span>MARKET DIRECTION<span class="brand-sub">RESEARCH NOTEBOOK / 01</span></span></a>
-  <div class="top-links"><span class="author">Divya Mistry · Quantitative research</span><a class="source-link" href="https://github.com/divyamistry2224/Market-Direction-Prediction" target="_blank" rel="noopener">View GitHub <span aria-hidden="true">→</span></a></div>
-</header>
-<div class="workspace">
-  <aside class="sidebar">
-    <p class="nav-label">RESEARCH WORKSPACE</p>
-    <nav aria-label="Research sections">
-      <button data-tab="overview" aria-current="page"><span>01</span> Research overview</button>
-      <button data-tab="lab"><span>02</span> Strategy lab</button>
-      <button data-tab="validation"><span>03</span> Model validation</button>
-      <button data-tab="data"><span>04</span> Data & methodology</button>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#0c111c" />
+    <meta
+      name="description"
+      content="An interactive financial research workbench by Divya Mistry. Build historical SPY strategies, compare machine learning models, and inspect sentiment and economic signals."
+    />
+    <title>Market Direction · Research Workbench</title>
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="assets/style.css?v=3" />
+    <script src="assets/app.js?v=3" defer></script>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to workspace</a>
+    <header class="app-header">
+      <a class="brand" href="#overview" aria-label="Market Direction home">
+        <span class="brand-mark"
+          ><svg viewBox="0 0 28 28" aria-hidden="true">
+            <path
+              d="M5 19V9m6 14V5m6 14V9m6 7V3M3 14h4m2-3h4m2 4h4m2-7h4"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            /></svg
+        ></span>
+        <span>MARKET DIRECTION<small>RESEARCH WORKBENCH</small></span>
+      </a>
+      <div class="header-market">
+        <span class="live-dot"></span><b>SPY</b><span>S&P 500 ETF</span
+        ><span class="header-divider"></span><span>Historical research</span>
+      </div>
+      <div class="header-actions">
+        <button class="quiet-button" id="open-guide">
+          How to use <span aria-hidden="true">?</span></button
+        ><a
+          class="quiet-button github-link"
+          href="https://github.com/divyamistry2224/Market-Direction-Prediction"
+          target="_blank"
+          rel="noopener"
+          >GitHub <span aria-hidden="true">→</span></a
+        >
+      </div>
+    </header>
+    <nav class="primary-nav" aria-label="Research sections">
+      <div class="nav-inner">
+        <button data-tab="overview" aria-current="page">
+          <span class="nav-icon" aria-hidden="true">◫</span>Overview
+        </button>
+        <button data-tab="lab">
+          <span class="nav-icon" aria-hidden="true">⌘</span>Strategy builder
+        </button>
+        <button data-tab="validation">
+          <span class="nav-icon" aria-hidden="true">⊞</span>Model arena
+        </button>
+        <button data-tab="data">
+          <span class="nav-icon" aria-hidden="true">◎</span>Data explorer
+        </button>
+        <a href="research/market_research_note.pdf" download class="nav-report"
+          >Research note <span aria-hidden="true">↓</span></a
+        >
+      </div>
     </nav>
-    <div class="universe"><span class="nav-label">RESEARCH UNIVERSE</span><strong>SPY</strong><p>S&P 500 ETF</p><dl><div><dt>Frequency</dt><dd>Daily</dd></div><div><dt>Decision</dt><dd>After close</dd></div><div><dt>Execution</dt><dd>Next open → close</dd></div><div><dt>Exposure</dt><dd>Long / cash</dd></div></dl></div>
-    <div class="sidebar-note"><span class="status-dot"></span> Reproducible historical study<p>Public-source snapshots. Real experiment outputs. No live trading connection.</p></div>
-  </aside>
-  <main id="main">
-    <div id="loading" role="status">Loading research artifacts…</div>
-    <div id="error" role="alert" hidden></div>
-    <div id="research" hidden>
-      <section class="hero">
-        <div><p class="eyebrow">EQUITIES / SENTIMENT / MACROECONOMICS</p><h1>Market direction,<br>measured out of sample.</h1><p class="hero-copy">Do economic conditions and news sentiment add information beyond price? A reproducible comparison of CatBoost, Random Forest and simpler baselines, with explicit timing and trading costs.</p><div class="hero-tags"><span>Public financial data</span><span>Chronological validation</span><span>Cost-aware evaluation</span></div></div>
-        <div class="research-id"><span class="eyebrow">RESEARCH BY</span><strong>Divya Mistry</strong><p>Financial machine learning<br>Signal research & model risk</p><a href="research/market_research_note.pdf" download>Download research note (PDF) ↓</a></div>
-      </section>
-      <section id="overview" class="tab-panel" aria-label="Research overview">
-        <div class="section-heading"><div><p class="eyebrow">THE RESULT, BEFORE THE NARRATIVE</p><h2>What the evidence says</h2></div><span class="pill" id="overview-period"></span></div>
-        <div id="overview-kpis" class="kpis"></div>
-        <div id="finding" class="finding"></div>
-        <div class="grid-main"><section class="card"><div class="card-heading"><div><h3>Growth of $100</h3><p>2022–2025 · validation-selected model · net of assumed costs</p></div><span class="chart-unit">USD</span></div><div id="overview-chart" class="chart"></div><div class="legend"><span><i class="line strategy"></i>Selected long/cash</span><span><i class="line intraday"></i>Always-long intraday</span><span><i class="line benchmark"></i>Buy & hold</span></div><p class="footnote">Buy & hold includes overnight exposure; the model strategy does not. Both baselines include their respective entry/exit costs.</p></section><section class="card summary-card"><p class="eyebrow">RESEARCH DESIGN</p><h3>Predict first.<br> Trade second.</h3><ol><li><b>Build signals</b><span>Price behavior, news sentiment and macro conditions.</span></li><li><b>Respect time</b><span>Lag external series and purge five sessions between splits.</span></li><li><b>Compare fairly</b><span>Expanding validation, feature ablations and fixed baselines.</span></li><li><b>Measure implementation</b><span>Next-session execution, costs, exposure and drawdowns.</span></li></ol><button class="text-link" data-go="data">Read the full methodology →</button></section></div>
-        <div class="two-columns"><section class="card"><div class="card-heading"><div><h3>Research progression</h3><p>The first test remains visible, including its weak result.</p></div></div><div id="progression"></div></section><section class="card"><div class="card-heading"><div><h3>Where this fits in finance</h3><p>Research and risk decisions supported by the project.</p></div></div><div class="use-cases"><div><b>Systematic equity research</b><p>Test incremental signals before allocating research capital.</p></div><div><b>Portfolio & risk analytics</b><p>Separate direction, exposure, drawdown and cost sensitivity.</p></div><div><b>Model validation</b><p>Audit label timing, validation choices and degradation across periods.</p></div></div></section></div>
-      </section>
-      <section id="lab" class="tab-panel" aria-label="Strategy lab" hidden>
-        <div class="section-heading"><div><p class="eyebrow">EXPLORE THE IMPLEMENTATION</p><h2>Strategy lab</h2></div><a class="button secondary" href="data/predictions.csv" download>Download original predictions ↓</a></div>
-        <p class="section-copy">Explore how model choice, confidence and transaction costs change a historical long/cash strategy. Changing these settings is post-hoc analysis, not a new independent test.</p>
-        <div class="controls card"><label>Evaluation sample<select id="dataset"><option value="original">Historical backtest · 2022–2025</option><option value="extension">Fresh evaluation · 2026</option></select></label><label>Model<select id="model"></select></label><label>Period<select id="period"><option value="all">Full evaluation sample</option></select></label><label>Trade threshold <output id="threshold-value"></output><input id="threshold" type="range" min="0.45" max="0.75" step="0.01" value="0.55"></label><label>Cost per side <output id="cost-value"></output><input id="cost" type="range" min="0" max="20" step="0.5" value="2"></label></div>
-        <div id="lab-kpis" class="kpis" aria-live="polite"></div>
-        <section class="card"><div class="card-heading"><div><h3>Equity curve</h3><p id="lab-caption"></p></div><button class="text-link" id="reset">Reset research settings ↺</button></div><div id="lab-chart" class="chart"></div><div class="legend"><span><i class="line strategy"></i>Long/cash</span><span><i class="line intraday"></i>Always-long intraday</span><span><i class="line benchmark"></i>Buy & hold</span></div><p class="footnote">Every active day is a separate open-to-close round trip. Consecutive active days each incur both costs. Cash earns zero; no leverage or short selling.</p></section>
-        <div class="two-columns"><section class="card"><div class="card-heading"><div><h3>Monthly net returns</h3><p>Compounded within each month · gray cells are outside the sample.</p></div></div><div id="monthly" class="table-scroll"></div></section><section class="card"><div class="card-heading"><div><h3>Signal exposure</h3><p>Profitability and classification are separate questions.</p></div></div><div id="exposure"></div></section></div>
-        <section class="card"><div class="card-heading"><div><h3>Historical signal ledger</h3><p>Latest 12 observations in the selected historical period. These are not current forecasts.</p></div></div><div id="ledger" class="table-scroll"></div></section>
-      </section>
-      <section id="validation" class="tab-panel" aria-label="Model validation" hidden>
-        <div class="section-heading"><div><p class="eyebrow">GENERALIZATION, NOT JUST FIT</p><h2>Model validation</h2></div><a class="button secondary" href="https://github.com/divyamistry2224/Market-Direction-Prediction/tree/main/reports">Inspect all artifacts →</a></div>
-        <section class="card"><h3>Chronological protocol</h3><div class="timeline"><div><span>2006–2018</span><b>Initial training</b><p>Past observations only</p></div><div><span>2019–2021</span><b>Original validation</b><p>3 annual expanding folds</p></div><div><span>2022–2025</span><b>Original holdout</b><p>Preserved first evaluation</p></div><div class="fresh"><span>JAN–OCT 2026</span><b>Fresh extension test</b><p>One selected configuration</p></div></div><p class="footnote">After observing the first result, the extension explicitly reuses 2019–2025 as development. It does not continue to call 2022–2025 untouched. A five-session purge separates training labels from each evaluation window.</p></section>
-        <section class="card"><div class="card-heading"><div><h3>Original model & feature comparison</h3><p>Selection uses validation balanced accuracy. Holdout results are reported for transparency.</p></div></div><div id="model-table" class="table-scroll"></div></section>
-        <div class="two-columns"><section class="card"><div class="card-heading"><div><h3>Does sentiment add information?</h3><p>Matched original validation folds · change versus market-only features</p></div></div><div id="ablation"></div></section><section class="card"><div class="card-heading"><div><h3>Probability reliability</h3><p>Fresh selected model · raw probabilities, not post-calibrated</p></div></div><div id="calibration" class="chart small-chart"></div><p class="footnote">Perfect calibration follows the diagonal. A short sample and sparse probability bins make this diagnostic uncertain.</p></section></div>
-        <section id="extension-section" class="card"><div class="card-heading"><div><h3>Extension search: what changed</h3><p>Short-term reversal, cross-asset context, rolling training windows and validation-only threshold selection.</p></div></div><div id="extension-summary"></div><div id="search-table" class="table-scroll"></div><p class="footnote">32 candidate configurations × 16 threshold choices create selection risk. Only the development winner was evaluated on the fresh sample. The search is recorded in full.</p></section>
-        <div class="two-columns"><section class="card"><div class="card-heading"><div><h3>Training feature importance</h3><p id="importance-note"></p></div></div><div id="importance"></div><p class="footnote">Normalized model importance (or absolute standardized logistic coefficients). Association, not causation; not directly comparable across model families.</p></section><section class="card"><div class="card-heading"><div><h3>Uncertainty matters</h3><p>Block resampling retains short-run dependence.</p></div></div><div id="uncertainty"></div></section></div>
-      </section>
-      <section id="data" class="tab-panel" aria-label="Data and methodology" hidden>
-        <div class="section-heading"><div><p class="eyebrow">TRACEABLE INPUTS, EXPLICIT ASSUMPTIONS</p><h2>Data & methodology</h2></div><a class="button secondary" href="https://github.com/divyamistry2224/Market-Direction-Prediction/tree/main/data/raw">Inspect source snapshots →</a></div>
-        <div class="two-columns"><section class="card"><h3>Research question</h3><p class="body-copy">Can public news sentiment and macroeconomic conditions improve next-session SPY direction prediction beyond market features? This is a test of incremental information, followed by a separate assessment of whether a long/cash implementation survives assumed costs.</p><div class="formula"><span>TARGET</span><code>1[ close(t+1) / open(t+1) − 1 &gt; 0 ]</code></div><p class="body-copy">The signal uses information through session t’s close. It is executed at the next open and closed at that session’s close. Zero-return sessions count as “not up.”</p></section><section class="card"><h3>What the sentiment variable means</h3><p class="body-copy">The San Francisco Fed’s Daily News Sentiment Index summarizes sentiment in economic news. It is a broad economic-news proxy—not a SPY-specific earnings signal, social-media feed or custom sentiment classifier.</p><p class="body-copy">The project engineers levels, rolling averages, changes and standardized values from that published index. It does not claim to have trained a language model or collected proprietary news.</p><a class="text-link" href="https://www.frbsf.org/research-and-insights/data-and-indicators/daily-news-sentiment-index/" target="_blank" rel="noopener">Read the provider’s methodology →</a></section></div>
-        <section class="card"><h3>Sources & assumed availability</h3><div class="table-scroll"><table><thead><tr><th>Input</th><th>Source / series</th><th>Availability assumption</th><th>Research use</th></tr></thead><tbody><tr><td>Price & volume</td><td>Yahoo Finance · SPY</td><td>Signal-date close</td><td>Momentum, volatility, reversal, liquidity proxy</td></tr><tr><td>Rates, curve & volatility</td><td>FRED · DFF, T10Y2Y, VIXCLS</td><td>Observation + 2 business days</td><td>Policy stance, term spread, risk regime</td></tr><tr><td>Labor & inflation</td><td>FRED · UNRATE, CPIAUCSL</td><td>Month end + 45 calendar days</td><td>Labor conditions, CPI year-over-year</td></tr><tr><td>News sentiment</td><td>Federal Reserve Bank of San Francisco</td><td>Observation + 7 calendar days</td><td>News tone, trend and change</td></tr><tr><td>Cross-asset context</td><td>Yahoo · QQQ, IWM, TLT, HYG, GLD, UUP</td><td>Signal-date close · extension only</td><td>Equity breadth, credit, duration, gold, dollar</td></tr></tbody></table></div><div class="notice"><b>Historical availability is approximated.</b> These are latest-vintage downloads. Publication lags help prevent obvious date leakage but cannot remove revisions or certify point-in-time tradability. Exchange holidays are not explicitly modeled in the assumed business-day lags.</div></section>
-        <div class="two-columns"><section class="card"><h3>Evaluation rules</h3><ul class="detail-list"><li>Fixed original hyperparameters, with market-only, macro, sentiment and combined feature ablations.</li><li>Extension search and fresh-test dates committed before its evaluation.</li><li>Balanced accuracy and AUC measure discrimination; Brier score and log loss assess probability quality.</li><li>Net return, zero-rate Sharpe, drawdown, exposure and hit rate measure implementation.</li><li>Costs charged on every entry and exit; no free turnover for consecutive signals.</li><li>Block bootstrap intervals describe uncertainty; they are not multiple-testing-adjusted proof of alpha.</li></ul></section><section class="card"><h3>Limits & next research steps</h3><ul class="detail-list"><li>One ETF and a short fresh sample cannot establish robustness across asset classes or firms.</li><li>Replace revised data with licensed point-in-time data before investment use.</li><li>Validate longer forecast horizons suited to slow-moving macro signals.</li><li>Collect forward paper-trading observations with immutable timestamps.</li><li>Estimate realized spreads, slippage, capacity and cash financing.</li><li>Independent model review should precede any deployment.</li></ul></section></div>
-        <section class="card"><div class="card-heading"><div><h3>Reproduce the research</h3><p>Committed snapshots work without API keys. Refreshing data is optional and changes the experiment.</p></div></div><pre class="code"><code>git clone https://github.com/divyamistry2224/Market-Direction-Prediction.git
-cd Market-Direction-Prediction
-python -m venv .venv
-source .venv/bin/activate
-pip install -e '.[dev]'
-market-direction verify
-pytest -q
-market-direction run
-market-direction extension-run</code></pre><div id="provenance"></div></section>
-      </section>
-      <footer><span>Divya Mistry · Market Direction Research</span><span>Historical research. No live forecasts or execution.</span><a href="https://github.com/divyamistry2224/Market-Direction-Prediction">Source & reproducibility →</a></footer>
-    </div>
-  </main>
-</div>
-</body>
+    <main id="main">
+      <div id="loading" class="loading-state" role="status">
+        <span class="loader"></span>Opening the research workbench…
+      </div>
+      <div id="error" class="error-state" role="alert" hidden></div>
+      <div id="research" hidden>
+        <header class="workspace-heading">
+          <div>
+            <p id="page-kicker" class="eyebrow">01 / THE BIG PICTURE</p>
+            <h1 id="page-title" tabindex="-1">
+              Signals. Strategies. Evidence.
+            </h1>
+            <p id="page-summary">
+              Explore the research, then put the assumptions to work.
+            </p>
+          </div>
+          <div class="research-signature">
+            <span>RESEARCH BY</span><b>Divya Mistry</b
+            ><small>Financial machine learning</small>
+          </div>
+        </header>
+
+        <section id="overview" class="tab-panel" aria-label="Research overview">
+          <div class="overview-banner">
+            <div>
+              <span class="badge violet">SPY / DAILY DIRECTION</span>
+              <h2>Follow a signal.<br />See what changes.</h2>
+              <p>
+                Price behavior, economic conditions and news sentiment meet in
+                one inspectable research workspace.
+              </p>
+              <button class="button primary" data-go="lab">
+                Build a strategy <span aria-hidden="true">→</span>
+              </button>
+            </div>
+            <div class="banner-graphic" aria-hidden="true">
+              <div class="orbit orbit-one"></div>
+              <div class="orbit orbit-two"></div>
+              <svg viewBox="0 0 400 140">
+                <defs>
+                  <linearGradient id="signal-glow">
+                    <stop stop-color="#a69bff" />
+                    <stop offset="1" stop-color="#b8ef73" />
+                  </linearGradient>
+                </defs>
+                <path
+                  d="M0 95H38l18-15 20 26 25-60 19 19 25-20 26 41 28-15 20-39 30 16 25-25 32 12 24-21 26 10h44"
+                  fill="none"
+                  stroke="url(#signal-glow)"
+                  stroke-width="2.5"
+                />
+                <circle cx="356" cy="24" r="5" fill="#b8ef73" /></svg
+              ><span class="graphic-label label-one">MARKET</span
+              ><span class="graphic-label label-two">SENTIMENT</span
+              ><span class="graphic-label label-three">MACRO</span>
+              <div class="graphic-caption">
+                Public inputs. Measured outcomes.
+              </div>
+            </div>
+          </div>
+          <div class="section-top">
+            <div>
+              <p class="eyebrow">ONE MODEL. ONE EVALUATION PERIOD.</p>
+              <h2>Research snapshot</h2>
+            </div>
+            <div class="inline-controls">
+              <label
+                >Sample<select id="overview-dataset">
+                  <option value="original">Historical · 2022–2025</option>
+                  <option value="extension">Fresh evaluation · 2026</option>
+                </select></label
+              ><label>Model<select id="overview-model"></select></label>
+            </div>
+          </div>
+          <div id="overview-kpis" class="kpis"></div>
+          <div class="overview-grid">
+            <section class="panel chart-panel">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">CAPITAL PATH</p>
+                  <h3>Growth of $10,000</h3>
+                  <p id="overview-caption"></p>
+                </div>
+                <button
+                  class="icon-button"
+                  data-help="equity"
+                  aria-label="Explain the equity chart"
+                >
+                  ?
+                </button>
+              </div>
+              <div id="overview-chart" class="chart"></div>
+              <div id="overview-legend" class="legend"></div>
+              <p class="fine-print">
+                The strategy holds only open to close. Buy & hold includes
+                overnight exposure. Both include their respective costs.
+              </p>
+            </section>
+            <aside class="panel snapshot-panel">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">READ THE RESULT</p>
+                  <h3 id="snapshot-title"></h3>
+                </div>
+                <span class="badge" id="snapshot-period"></span>
+              </div>
+              <div id="snapshot-body"></div>
+              <button class="button secondary full" id="open-snapshot">
+                Open this setup in builder →
+              </button>
+            </aside>
+          </div>
+          <div class="section-top">
+            <div>
+              <p class="eyebrow">PICK A QUESTION</p>
+              <h2>Make the research tangible.</h2>
+            </div>
+            <span class="muted small">Each opens a working view</span>
+          </div>
+          <div class="question-grid">
+            <button class="question-card" data-question="cost">
+              <span class="question-symbol">→</span
+              ><b>What if trading gets more expensive?</b
+              ><span>Stress transaction costs and inspect the P&L.</span
+              ><i>Open cost stress →</i></button
+            ><button class="question-card" data-question="sentiment">
+              <span class="question-symbol">≋</span
+              ><b>Did sentiment actually help?</b
+              ><span>Compare matched models and their features.</span
+              ><i>Compare the evidence →</i></button
+            ><button class="question-card" data-question="timing">
+              <span class="question-symbol">◷</span
+              ><b>What was available on a given day?</b
+              ><span>Replay the data and inspect availability lags.</span
+              ><i>Explore the inputs →</i>
+            </button>
+          </div>
+          <div class="research-strip">
+            <span class="badge">RESEARCH STATUS</span>
+            <p>
+              The original model earned a positive historical return. The
+              enhanced CatBoost improved fresh-sample directional accuracy; its
+              fixed trading overlay was negative. Inspect both rather than
+              treating them as the same result.
+            </p>
+            <button class="text-button" data-go="validation">
+              See comparisons →
+            </button>
+          </div>
+        </section>
+
+        <section
+          id="lab"
+          class="tab-panel"
+          aria-label="Strategy builder"
+          hidden
+        >
+          <div class="builder-layout">
+            <aside class="panel builder-controls">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">YOUR SETUP</p>
+                  <h3>Define the strategy</h3>
+                </div>
+                <button class="text-button" id="reset">Reset</button>
+              </div>
+              <label
+                >Evaluation sample<select id="dataset">
+                  <option value="original">Historical · 2022–2025</option>
+                  <option value="extension">Fresh evaluation · 2026</option>
+                </select></label
+              >
+              <label>Model<select id="model"></select></label>
+              <label>Evaluation period<select id="period"></select></label>
+              <label
+                >Starting capital <span class="muted">(USD)</span
+                ><input
+                  id="capital"
+                  type="number"
+                  min="100"
+                  max="100000000"
+                  step="1000"
+                  value="10000"
+              /></label>
+              <div class="range-control">
+                <label for="threshold"
+                  >Minimum confidence
+                  <button
+                    class="help-inline"
+                    type="button"
+                    data-help="threshold"
+                    aria-label="Explain minimum confidence"
+                  >
+                    ?
+                  </button></label
+                ><output id="threshold-value" for="threshold"></output
+                ><input
+                  id="threshold"
+                  type="range"
+                  min="0.45"
+                  max="0.75"
+                  step="0.01"
+                  value="0.55"
+                />
+                <p>Take a long position only above this probability.</p>
+              </div>
+              <div class="range-control">
+                <label for="cost"
+                  >Cost per side
+                  <button
+                    class="help-inline"
+                    type="button"
+                    data-help="cost"
+                    aria-label="Explain trading costs"
+                  >
+                    ?
+                  </button></label
+                ><output id="cost-value" for="cost"></output
+                ><input
+                  id="cost"
+                  type="range"
+                  min="0"
+                  max="20"
+                  step="0.5"
+                  value="2"
+                />
+                <p>Charged on both entry and exit, each active day.</p>
+              </div>
+              <div class="execution-rule">
+                <span class="rule-dot"></span>
+                <div>
+                  <b>Next open → same-day close</b
+                  ><small>Long or cash · flat overnight · no leverage</small>
+                </div>
+              </div>
+              <button class="button secondary full" id="download-scenario">
+                Export this scenario ↓
+              </button>
+              <button class="text-button full" id="share-scenario">
+                Copy scenario link
+              </button>
+            </aside>
+            <div class="builder-results">
+              <div
+                class="preset-row"
+                role="group"
+                aria-label="Strategy scenarios"
+              >
+                <button data-preset="default" class="active">
+                  Research defaults</button
+                ><button data-preset="cost">Cost stress</button
+                ><button data-preset="confidence">Higher confidence</button
+                ><button data-preset="participation">More participation</button>
+              </div>
+              <div
+                id="lab-kpis"
+                class="kpis"
+                aria-live="polite"
+                aria-atomic="true"
+              ></div>
+              <section class="panel chart-panel">
+                <div class="panel-heading">
+                  <div>
+                    <h3 id="lab-chart-title">Portfolio value</h3>
+                    <p id="lab-caption"></p>
+                  </div>
+                  <div class="segmented" role="group" aria-label="Chart view">
+                    <button data-chart="equity" class="active">Equity</button
+                    ><button data-chart="drawdown">Drawdown</button
+                    ><button data-chart="daily">Daily returns</button>
+                  </div>
+                </div>
+                <div id="lab-chart" class="chart"></div>
+                <div class="chart-bottom">
+                  <div id="lab-legend" class="legend"></div>
+                  <label class="checkbox-label"
+                    ><input id="show-benchmarks" type="checkbox" checked />Show
+                    benchmarks</label
+                  >
+                </div>
+                <div id="scenario-change" class="scenario-change"></div>
+              </section>
+              <div class="two-columns">
+                <section class="panel">
+                  <div class="panel-heading">
+                    <div>
+                      <h3>Monthly returns</h3>
+                      <p>Click a month to inspect its sessions.</p>
+                    </div>
+                    <span class="badge">NET</span>
+                  </div>
+                  <div id="monthly" class="table-scroll"></div>
+                  <div class="heatmap-key">
+                    <span>Loss</span><i></i><span>Gain</span>
+                  </div>
+                </section>
+                <section class="panel">
+                  <div class="panel-heading">
+                    <div>
+                      <h3>Where your capital was</h3>
+                      <p>Returns and participation explain different things.</p>
+                    </div>
+                  </div>
+                  <div id="exposure"></div>
+                </section>
+              </div>
+              <section class="panel">
+                <div class="panel-heading">
+                  <div>
+                    <h3>Signal ledger</h3>
+                    <p>
+                      Click any row for the full decision and cost breakdown.
+                    </p>
+                  </div>
+                  <label class="compact-label"
+                    >Show<select id="ledger-filter">
+                      <option value="all">All sessions</option>
+                      <option value="active">Long positions</option>
+                      <option value="cash">Cash sessions</option>
+                    </select></label
+                  >
+                </div>
+                <div id="ledger" class="table-scroll"></div>
+              </section>
+              <p class="fine-print">
+                These controls recalculate historical scenarios; they do not
+                retrain models or create a new independent evaluation. Assumed
+                costs, zero cash yield and latest-vintage data limit investment
+                interpretation.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section
+          id="validation"
+          class="tab-panel"
+          aria-label="Model arena"
+          hidden
+        >
+          <div class="arena-controls panel">
+            <label
+              >Evaluation sample<select id="arena-dataset">
+                <option value="original">Historical · 2022–2025</option>
+                <option value="extension">Fresh evaluation · 2026</option>
+              </select></label
+            ><label
+              >Model family<select id="arena-family">
+                <option value="all">All families</option>
+                <option>CatBoost</option>
+                <option>Random Forest</option>
+                <option>Logistic</option>
+                <option>Extra Trees</option>
+                <option>Histogram GB</option>
+              </select></label
+            ><label
+              >Rank by<select id="arena-sort">
+                <option value="validation">Validation selection score</option>
+                <option value="return">Historical net return</option>
+                <option value="accuracy">Balanced accuracy</option>
+                <option value="sharpe">Net Sharpe</option>
+              </select></label
+            >
+            <div class="arena-count" id="arena-count"></div>
+          </div>
+          <div class="arena-grid">
+            <section class="panel">
+              <div class="panel-heading">
+                <div>
+                  <h3>Compare the field</h3>
+                  <p>Select a row to inspect its predictions and features.</p>
+                </div>
+                <span class="badge" id="arena-period"></span>
+              </div>
+              <div id="model-table" class="table-scroll"></div>
+              <p class="fine-print">
+                Sorting historical outcomes is exploration, not a new
+                model-selection rule. Original and additional historical
+                comparisons retain the testing history documented in the
+                research note.
+              </p>
+              <div id="arena-distribution"></div>
+            </section>
+            <section class="panel model-detail">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">SELECTED MODEL</p>
+                  <h3 id="arena-detail-title"></h3>
+                  <p id="arena-detail-subtitle"></p>
+                </div>
+                <span class="badge violet" id="arena-feature-count"></span>
+              </div>
+              <div id="arena-detail-stats"></div>
+              <h4>Direction: prediction vs. outcome</h4>
+              <div id="confusion" class="confusion-grid"></div>
+              <p class="fine-print" id="confusion-note"></p>
+              <button class="button secondary full" id="arena-to-builder">
+                Try this model in builder →
+              </button>
+            </section>
+          </div>
+          <div class="two-columns">
+            <section class="panel">
+              <div class="panel-heading">
+                <div>
+                  <h3>Probability reliability</h3>
+                  <p id="calibration-note"></p>
+                </div>
+                <button
+                  class="icon-button"
+                  data-help="calibration"
+                  aria-label="Explain calibration"
+                >
+                  ?
+                </button>
+              </div>
+              <div id="calibration" class="chart compact-chart"></div>
+              <p class="fine-print">
+                Closer to the diagonal means the observed frequency matches the
+                raw predicted probability. Bins with few sessions are uncertain.
+              </p>
+            </section>
+            <section class="panel">
+              <div class="panel-heading">
+                <div>
+                  <h3>What the fitted model used</h3>
+                  <p id="importance-note"></p>
+                </div>
+                <button
+                  class="icon-button"
+                  data-help="importance"
+                  aria-label="Explain feature importance"
+                >
+                  ?
+                </button>
+              </div>
+              <div id="importance"></div>
+            </section>
+          </div>
+          <section class="panel">
+            <div class="panel-heading">
+              <div>
+                <h3>Does adding sentiment change the result?</h3>
+                <p>
+                  Matched original validation folds · change from market-only
+                  features
+                </p>
+              </div>
+              <div
+                class="segmented"
+                role="group"
+                aria-label="Ablation model family"
+              >
+                <button data-ablation="CatBoost" class="active">CatBoost</button
+                ><button data-ablation="Random Forest">Random Forest</button>
+              </div>
+            </div>
+            <div id="ablation"></div>
+          </section>
+          <details class="panel research-details">
+            <summary>
+              <span>How the models were evaluated</span
+              ><span>Timeline, fresh-test selection & uncertainty</span>
+            </summary>
+            <div class="timeline">
+              <div><span>2006–2018</span><b>Initial training</b></div>
+              <div><span>2019–2021</span><b>Original validation</b></div>
+              <div><span>2022–2025</span><b>Original test</b></div>
+              <div><span>JAN–OCT 2026</span><b>Fresh extension test</b></div>
+            </div>
+            <div id="extension-summary"></div>
+            <div id="uncertainty"></div>
+            <p class="fine-print">
+              The extension reused 2019–2025 as development after the first
+              result was observed. Its 32-configuration protocol preceded the
+              fresh evaluation. Extra Trees and histogram boosting were later
+              compared on the reused historical period. See the model card for
+              the full testing history.
+            </p>
+          </details>
+        </section>
+
+        <section id="data" class="tab-panel" aria-label="Data explorer" hidden>
+          <div class="data-layout">
+            <aside class="panel data-controls">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">INSPECT THE INPUTS</p>
+                  <h3>Choose a signal</h3>
+                </div>
+              </div>
+              <label
+                >Evaluation sample<select id="data-dataset">
+                  <option value="original">Historical · 2022–2025</option>
+                  <option value="extension">Fresh evaluation · 2026</option>
+                </select></label
+              >
+              <div
+                id="source-buttons"
+                class="source-buttons"
+                role="group"
+                aria-label="Data series"
+              ></div>
+              <a
+                class="text-button"
+                href="https://github.com/divyamistry2224/Market-Direction-Prediction/tree/main/data/raw"
+                target="_blank"
+                rel="noopener"
+                >Inspect raw snapshots →</a
+              >
+            </aside>
+            <div>
+              <section class="panel data-chart-panel">
+                <div class="panel-heading">
+                  <div>
+                    <p class="eyebrow" id="data-provider"></p>
+                    <h3 id="data-title"></h3>
+                    <p id="data-description"></p>
+                  </div>
+                  <button class="button secondary small" id="download-data">
+                    Export visible data ↓
+                  </button>
+                </div>
+                <div id="data-value" class="data-value"></div>
+                <div id="data-chart" class="chart"></div>
+                <label class="date-scrubber" for="data-date"
+                  ><span>Replay a signal date</span
+                  ><output id="data-date-label"></output
+                  ><input
+                    type="range"
+                    id="data-date"
+                    min="0"
+                    max="100"
+                    value="100"
+                /></label>
+                <div class="scrubber-hint">
+                  <span>Earlier observations</span
+                  ><span>Drag to inspect what was available →</span>
+                </div>
+              </section>
+              <div class="two-columns">
+                <section class="panel">
+                  <div class="panel-heading">
+                    <div>
+                      <h3>What was known at the close?</h3>
+                      <p id="availability-caption"></p>
+                    </div>
+                  </div>
+                  <div id="availability"></div>
+                </section>
+                <section class="panel">
+                  <div class="panel-heading">
+                    <div>
+                      <h3>Where this number comes from</h3>
+                      <p>Source, transformation and timing</p>
+                    </div>
+                  </div>
+                  <div id="source-detail"></div>
+                </section>
+              </div>
+              <section class="panel">
+                <div class="panel-heading">
+                  <div>
+                    <h3>Observation log</h3>
+                    <p>Last 10 observations through the selected date.</p>
+                  </div>
+                </div>
+                <div id="data-log" class="table-scroll"></div>
+              </section>
+            </div>
+          </div>
+          <details class="panel research-details">
+            <summary>
+              <span>Data assumptions & reproducibility</span
+              ><span>Provenance, source lags and research controls</span>
+            </summary>
+            <p class="body-copy">
+              These are latest-vintage historical downloads. The availability
+              rules approximate publication timing: daily macro +2 business
+              days, monthly series month end +45 calendar days, sentiment +7
+              days. They prevent obvious future joins but do not remove
+              revisions or certify historical tradability. Market features use
+              signal-date close.
+            </p>
+            <div id="provenance"></div>
+            <div class="resource-links">
+              <a href="research/model_card.md" target="_blank">Model card →</a
+              ><a href="research/data_dictionary.md" target="_blank"
+                >Data dictionary →</a
+              ><a href="research/market_research_note.pdf" download
+                >Research note (PDF) ↓</a
+              ><a
+                href="https://github.com/divyamistry2224/Market-Direction-Prediction#quick-start"
+                target="_blank"
+                rel="noopener"
+                >Reproduce the study →</a
+              >
+            </div>
+          </details>
+        </section>
+        <footer>
+          <span><b>MARKET DIRECTION</b> / Divya Mistry</span
+          ><span
+            >Historical research · no live forecasts or trade execution</span
+          ><a
+            href="https://github.com/divyamistry2224/Market-Direction-Prediction"
+            target="_blank"
+            rel="noopener"
+            >Source & methods →</a
+          >
+        </footer>
+      </div>
+    </main>
+    <dialog id="detail-dialog" class="detail-dialog">
+      <div class="dialog-heading">
+        <p id="dialog-kicker" class="eyebrow">RESEARCH DETAIL</p>
+        <button
+          class="icon-button"
+          id="close-dialog"
+          aria-label="Close details"
+        >
+          ×
+        </button>
+      </div>
+      <h2 id="dialog-title"></h2>
+      <div id="dialog-body"></div>
+    </dialog>
+    <div id="toast" class="toast" role="status" hidden></div>
+  </body>
 </html>
