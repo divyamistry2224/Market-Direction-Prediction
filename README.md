@@ -4,7 +4,7 @@
 
 This project tests whether public news sentiment and macroeconomic indicators add predictive information beyond market behavior, then measures whether a long/cash SPY implementation survives trading costs. It connects public data ingestion, time-aligned features, CatBoost and Random Forest comparisons, chronological validation, financial backtesting, and an interactive research dashboard.
 
-**[Research dashboard](https://divyamistry2224.github.io/Market-Direction-Prediction/)** · [Research note (PDF)](reports/market_research_note.pdf) · [Original results](reports/research_report.md) · [Model card](docs/research/model_card.md) · [Data dictionary](docs/research/data_dictionary.md) · [Notebook](notebooks/research_walkthrough.ipynb)
+**[Live research dashboard](https://divyamistry2224.github.io/Market-Direction-Prediction/)** · [Research note (PDF)](reports/market_research_note.pdf) · [Original results](reports/research_report.md) · [Model card](docs/research/model_card.md) · [Data dictionary](docs/research/data_dictionary.md) · [Notebook](notebooks/research_walkthrough.ipynb)
 
 ![Research integrity](https://github.com/divyamistry2224/Market-Direction-Prediction/actions/workflows/ci.yml/badge.svg)
 
@@ -140,4 +140,4 @@ Original code and documentation: MIT. Third-party datasets retain their provider
 
 ## Publish the standalone dashboard
 
-This project belongs in its own **Market-Direction-Prediction** repository. Its complete static dashboard is in `docs/`. Enable **Settings → Pages → Deploy from a branch → main → /docs** in that repository. No build server or external API credentials are required to display the committed results. Future pushes update the site automatically after the Pages build.
+The standalone **Market-Direction-Prediction** repository publishes its dashboard through **GitHub Pages → main → /docs**. No build server or external API credentials are required to display the committed results. Future pushes update the site automatically after the Pages build.
