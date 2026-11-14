@@ -4,9 +4,9 @@
 
 This project tests whether public news sentiment and macroeconomic indicators add predictive information beyond market behavior, then measures whether a long/cash SPY implementation survives trading costs. It connects public data ingestion, time-aligned features, CatBoost and Random Forest comparisons, chronological validation, financial backtesting, and an interactive research dashboard.
 
-**[Open the live research dashboard](https://divyamistry2224.github.io/QuantDS-Projects/market-direction/)** · [Research note (PDF)](reports/market_research_note.pdf) · [Original results](reports/research_report.md) · [Model card](docs/research/model_card.md) · [Data dictionary](docs/research/data_dictionary.md) · [Notebook](notebooks/research_walkthrough.ipynb)
+**[Research dashboard](https://divyamistry2224.github.io/Market-Direction-Prediction/)** · [Research note (PDF)](reports/market_research_note.pdf) · [Original results](reports/research_report.md) · [Model card](docs/research/model_card.md) · [Data dictionary](docs/research/data_dictionary.md) · [Notebook](notebooks/research_walkthrough.ipynb)
 
-![Research integrity](https://github.com/divyamistry2224/QuantDS-Projects/actions/workflows/market-direction.yml/badge.svg)
+![Research integrity](https://github.com/divyamistry2224/Market-Direction-Prediction/actions/workflows/ci.yml/badge.svg)
 
 ## Results you can inspect
 
@@ -42,8 +42,8 @@ The fresh winner uses **enhanced market and cross-asset features**, not the macr
 Python **3.12** is the tested version. Committed snapshots require **no API keys**.
 
 ```bash
-git clone https://github.com/divyamistry2224/QuantDS-Projects.git
-cd QuantDS-Projects/market-direction-prediction
+git clone https://github.com/divyamistry2224/Market-Direction-Prediction.git
+cd Market-Direction-Prediction
 python -m venv .venv
 source .venv/bin/activate          # Windows: .venv\Scripts\activate
 pip install -e '.[dev]'
@@ -136,3 +136,8 @@ Model probabilities are uncalibrated. One ETF, a short fresh sample, many develo
 - Cross-asset ETF histories: QQQ, IWM, TLT, HYG, GLD and UUP via Yahoo Finance.
 
 Original code and documentation: MIT. Third-party datasets retain their providers' rights and terms; this repository does not grant commercial market-data rights.
+
+
+## Publish the standalone dashboard
+
+This project belongs in its own **Market-Direction-Prediction** repository. Its complete static dashboard is in `docs/`. Enable **Settings → Pages → Deploy from a branch → main → /docs** in that repository. No build server or external API credentials are required to display the committed results. Future pushes update the site automatically after the Pages build.
