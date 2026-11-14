@@ -4,9 +4,9 @@
 
 This project tests whether public news sentiment and macroeconomic indicators add predictive information beyond market behavior, then measures whether a long/cash SPY implementation survives trading costs. It connects public data ingestion, time-aligned features, CatBoost and Random Forest comparisons, chronological validation, financial backtesting, and an interactive research dashboard.
 
-**[Open the live research dashboard](https://divyamistry2224.github.io/Market-Direction-Prediction/)** · [Research note (PDF)](reports/market_research_note.pdf) · [Original results](reports/research_report.md) · [Model card](docs/research/model_card.md) · [Data dictionary](docs/research/data_dictionary.md) · [Notebook](notebooks/research_walkthrough.ipynb)
+**[Open the live research dashboard](https://divyamistry2224.github.io/QuantDS-Projects/market-direction/)** · [Research note (PDF)](reports/market_research_note.pdf) · [Original results](reports/research_report.md) · [Model card](docs/research/model_card.md) · [Data dictionary](docs/research/data_dictionary.md) · [Notebook](notebooks/research_walkthrough.ipynb)
 
-![Research integrity](https://github.com/divyamistry2224/Market-Direction-Prediction/actions/workflows/ci.yml/badge.svg)
+![Research integrity](https://github.com/divyamistry2224/QuantDS-Projects/actions/workflows/market-direction.yml/badge.svg)
 
 ## Results you can inspect
 
@@ -42,8 +42,8 @@ The fresh winner uses **enhanced market and cross-asset features**, not the macr
 Python **3.12** is the tested version. Committed snapshots require **no API keys**.
 
 ```bash
-git clone https://github.com/divyamistry2224/Market-Direction-Prediction.git
-cd Market-Direction-Prediction
+git clone https://github.com/divyamistry2224/QuantDS-Projects.git
+cd QuantDS-Projects/market-direction-prediction
 python -m venv .venv
 source .venv/bin/activate          # Windows: .venv\Scripts\activate
 pip install -e '.[dev]'
